@@ -1,3 +1,7 @@
 [submodule "speechbrain"]
 	path = speechbrain
 	url = https://github.com/speechbrain/speechbrain.git
+[submodule "adapters"]
+	path = adapters
+	url = https://github.com/TheRealSal/adapters.git
+	branch = MambaAdapter
