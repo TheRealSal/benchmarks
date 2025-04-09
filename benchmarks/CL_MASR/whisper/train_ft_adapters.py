@@ -26,6 +26,9 @@ from speechbrain.utils.distributed import run_on_main
 
 from common_voice_prepare import prepare_common_voice
 
+import importlib
+from speechbrain.nnet.adapters import AdaptedModel, HoulsbyAdapterLinear
+
 
 class ASR(sb.Brain):
     def compute_forward(self, batch, stage):
@@ -472,6 +475,21 @@ def profile(hparams, run_opts):
     logging.info(result)
 
 
+def print_num_trainable_params(model: torch.nn.Module) -> int:
+    """
+    Prints and returns the total number of trainable parameters in `model`.
+    """
+    total = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    print(f"Trainable parameters: {total}")
+    return total
+
+
+def get_class_from_str(path: str):
+    module_path, class_name = path.rsplit(".", 1)
+    module = importlib.import_module(module_path)
+    return getattr(module, class_name)
+
+
 if __name__ == "__main__":
     # Command-line interface
     hparams_file, run_opts, overrides = sb.parse_arguments(sys.argv[1:])
@@ -520,6 +538,20 @@ if __name__ == "__main__":
 
     hparams["train_dataloader_kwargs"]["collate_fn"] = CustomPaddedBatch
     hparams["valid_dataloader_kwargs"]["collate_fn"] = CustomPaddedBatch
+
+    # Insert Adapters
+    adapter_cfg = hparams["adapter_config"]
+    adapter_cls_str = adapter_cfg["adapter_class"]
+    adapter_cls = get_class_from_str(adapter_cls_str)
+
+    AdaptedModel(
+        model_to_adapt=hparams["modules"]["whisper"],
+        adapter_class=adapter_cls,
+        target_layers=adapter_cfg["target_layers"],
+        adapter_kwargs=adapter_cfg["adapter_kwargs"],
+    )
+
+    print_num_trainable_params(hparams["modules"]["whisper"])
 
     # Train
     start_time = time.time()
