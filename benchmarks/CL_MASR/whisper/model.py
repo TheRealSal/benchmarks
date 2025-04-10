@@ -284,7 +284,7 @@ class ProgressiveWhisper(Whisper):
                 all_lang_tokens
             )
             hyps[:, 0] = startoftranscript_id
-            logits, _ = self.forward_decoder(audio_features, hyps[:, :1])
+            logits, _, _ = self.forward_decoder(audio_features, hyps[:, :1])
             lang_mask = torch.zeros(
                 logits.shape[-1], device=logits.device, dtype=torch.bool
             )
@@ -366,7 +366,7 @@ class ProgressiveWhisper(Whisper):
             # B* x T
             alive_hyps = hyps[alive_mask, : num_gen_tokens + 4]
             # B* x T x K
-            logits, _ = self.forward_decoder(alive_audio_features, alive_hyps)
+            logits, _, _ = self.forward_decoder(alive_audio_features, alive_hyps)
             # B* x K
             logits = logits[:, -1, :]
             logits[:, ~suppress_mask] = -float("inf")
@@ -434,7 +434,7 @@ class ProgressiveWhisper(Whisper):
                 alive_hyps = hyps[:, : num_gen_tokens + 4]
                 alive_batch_size = alive_hyps.shape[0]
                 # B* x T x K
-                logits, _ = self.forward_decoder(
+                logits, _, _ = self.forward_decoder(
                     alive_audio_features, alive_hyps
                 )
             else:
@@ -445,7 +445,7 @@ class ProgressiveWhisper(Whisper):
                     beam_size * alive_batch_size, -1
                 )
                 # NB* x T x K
-                logits, _ = self.forward_decoder(
+                logits, _, _ = self.forward_decoder(
                     alive_audio_features, alive_hyps
                 )
             # NB* x K or B* x K (num_gen_tokens=0)
