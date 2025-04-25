@@ -352,7 +352,7 @@ def train(hparams, run_opts):
         # Add new language token
         new_tokens = [f"<|{locale.lower()}|>"]
         tokenizer = hparams["whisper"].tokenizer
-        tokenizer._additional_special_tokens += new_tokens
+        tokenizer._special_tokens_map["additional_special_tokens"] += new_tokens
         tokenizer.supported_languages.update({locale.lower(): locale.lower()})
         tokenizer.to_language_codes.update({locale.lower(): locale.lower()})
 
