@@ -69,6 +69,7 @@ adapter_config:
     - "model.decoder.layers.*.mlp"
   adapter_kwargs:
     projection_size: 12
+    kernel_size: 24
 
 # Modules
 whisper: !new:model.ProgressiveWhisper
