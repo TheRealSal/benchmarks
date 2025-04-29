@@ -105,7 +105,7 @@ class ASR(sb.Brain):
 
         # Perform end-of-iteration things, like annealing, logging, etc.
         if stage == sb.Stage.VALID:
-            old_lr, new_lr = self.hparams.lr_annealing(stage_stats["loss"])
+            old_lr, new_lr = self.hparams.lr_annealing(epoch)
             sb.nnet.schedulers.update_learning_rate(self.optimizer, new_lr)
             stats_meta_data = {
                 "epoch": epoch,
@@ -390,8 +390,8 @@ def train(hparams, run_opts):
             checkpoint_folder
         )
         hparams["lr_annealing"].hyperparam_value = hparams["lr"]
-        hparams["lr_annealing"].metric_values.clear()
-        hparams["lr_annealing"].current_patient = 0
+        # hparams["lr_annealing"].metric_values.clear()
+        # hparams["lr_annealing"].current_patient = 0
         asr_brain = ASR(
             modules=hparams["modules"],
             hparams=hparams,
