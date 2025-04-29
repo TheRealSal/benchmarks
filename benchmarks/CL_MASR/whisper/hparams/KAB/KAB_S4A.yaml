@@ -92,12 +92,14 @@ modules:
 # Optimizers
 opt_class: !name:torch.optim.AdamW
     lr: !ref <lr>
+    betas: [0.9,0.98]
+    weight_decay: 0.1
+    eps: 1e-6
 
-lr_annealing: !new:speechbrain.nnet.schedulers.NewBobScheduler
+lr_annealing: !new:speechbrain.nnet.schedulers.LinearScheduler
     initial_value: !ref <lr>
-    improvement_threshold: !ref <improvement_threshold>
-    annealing_factor: !ref <annealing_factor>
-    patient: 0
+    final_value: 0.00005
+    epoch_count: !ref <num_epochs>
 
 # Performance metrics
 wer_computer: !name:speechbrain.utils.metric_stats.ErrorRateStats
@@ -113,7 +115,6 @@ checkpointer: !new:speechbrain.utils.checkpoints.Checkpointer
     checkpoints_dir: !ref <save_folder>
     recoverables:
         model: !ref <whisper>
-        scheduler: !ref <lr_annealing>
         counter: !ref <epoch_counter>
 
 train_logger: !new:speechbrain.utils.train_logger.WandBLogger
