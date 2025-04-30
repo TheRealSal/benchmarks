@@ -93,10 +93,11 @@ opt_class: !name:torch.optim.AdamW
     eps: !ref <eps>
     weight_decay: !ref <weight_decay>
 
-lr_annealing: !new:speechbrain.nnet.schedulers.LinearScheduler
+lr_annealing: !new:speechbrain.nnet.schedulers.NewBobScheduler
     initial_value: !ref <lr>
-    final_value: !ref <final_value>
-    epoch_count: !ref <num_epochs>
+    improvement_threshold: !ref <improvement_threshold>
+    annealing_factor: !ref <annealing_factor>
+    patient: 0
 
 # Performance metrics
 wer_computer: !name:speechbrain.utils.metric_stats.ErrorRateStats
