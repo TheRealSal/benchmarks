@@ -56,6 +56,10 @@ max_gen_tokens: 80
 forced_decoder_locale: null  # Set dynamically
 normalize_transcripts: True
 
+# Adapter options
+projection_size: 24
+adapter_rank_tag: !ref "r=<projection_size>"
+
 # Dataloader options
 train_dataloader_kwargs:
     batch_size: !ref <train_batch_size>
@@ -70,7 +74,7 @@ adapter_config:
   target_layers:
     - "model.decoder.layers.*.mlp"
   adapter_kwargs:
-    projection_size: 12
+    projection_size: !ref <projection_size>
     kernel_size: 24
 
 # Modules
@@ -119,4 +123,4 @@ train_logger: !new:speechbrain.utils.train_logger.WandBLogger
       entity: "salmanhussainali03-concordia-university"
       project: "MASR-S4A"
       name: !ref <experiment_name>
-      tags: [!ref <locale_name>, !ref <adapter_type>]
+      tags: [!ref <locale_name>, !ref <adapter_type>, !ref<adapter_rank_tag>]
