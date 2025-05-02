@@ -538,10 +538,15 @@ if __name__ == "__main__":
         adapter_kwargs=adapter_cfg["adapter_kwargs"],
     )
 
-    print_num_trainable_params(hparams["modules"]["whisper"])
+    n_params = print_num_trainable_params(hparams["modules"]["whisper"])
 
     # Train
     start_time = time.time()
     train(hparams, run_opts)
     duration = time.time() - start_time
     logging.info(f"Time elapsed: {duration} seconds")
+
+    hparams["train_logger"].log_stats(
+        stats_meta={"Rank": hparams["projection_size"],
+                    "# of Trainable Params": n_params}
+    )
