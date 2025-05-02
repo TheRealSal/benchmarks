@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=AB_Bn_proj_sweep
 #SBATCH --array=0-10
-#SBATCH --time=7:00:00
+#SBATCH --time=2:30:00
 #SBATCH --ntasks=2
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=16G
