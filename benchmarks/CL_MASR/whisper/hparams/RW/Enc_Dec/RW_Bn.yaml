@@ -44,7 +44,8 @@ annealing_factor: 0.8
 whisper_variant: whisper-small
 encoder_only: False
 freeze: False
-freeze_encoder: True
+freeze_encoder: False
+freeze_decoder: False
 
 max_target_length: 448  # Must be <= 448 (Whisper maximum target length)
 nonfinite_patience: 10
@@ -87,6 +88,7 @@ whisper: !new:model.ProgressiveWhisper
     encoder_only: !ref <encoder_only>
     freeze: !ref <freeze>
     freeze_encoder: !ref <freeze_encoder>
+    freeze_decoder: !ref <freeze_decoder>
 
 ce_loss: !new:torch.nn.CrossEntropyLoss
     ignore_index: !ref <ignore_index>
