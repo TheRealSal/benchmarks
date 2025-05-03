@@ -7,6 +7,7 @@ experiment_name: CKB_Con
 locale_name: "ckb"
 adapter_type: "CON"
 
+location: ""
 seed: 0
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
 
@@ -119,4 +120,4 @@ train_logger: !new:speechbrain.utils.train_logger.WandBLogger
       entity: "salmanhussainali03-concordia-university"
       project: "MASR-S4A"
       name: !ref <experiment_name>
-      tags: [!ref <locale_name>, !ref <adapter_type>]
+      tags: [!ref <locale_name>, !ref <adapter_type>, !ref <adapter_rank_tag>, !ref <location>]
