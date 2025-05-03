@@ -20,7 +20,7 @@ data_folder: !PLACEHOLDER
 max_durations: [36000, 3600, 3600]  # Maximum total durations in seconds for train, dev, and test splits for each locale
 
 # Output directories
-output_folder: !ref results/<whisper_variant>/<experiment_name>/<seed>
+output_folder: !ref results/<whisper_variant>/<experiment_name>/<location>/<seed>
 save_folder: !ref <output_folder>/save
 
 # Training parameters
