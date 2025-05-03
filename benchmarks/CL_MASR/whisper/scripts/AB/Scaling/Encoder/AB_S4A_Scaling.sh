@@ -26,4 +26,4 @@ cd $HOME/projects/def-ravanelm/salmanhu/benchmarks/benchmarks/CL_MASR/whisper
 projection_sizes=(128 112 104 96 80 72 64 48 36 32 24 16)
 rank=${projection_sizes[$SLURM_ARRAY_TASK_ID]}
 
-python train_ft_adapters.py hparams/AB/AB_S4A.yaml --data_folder $SLURM_TMPDIR/CL_MASR/CL-MASR --seed 0 --projection_size $rank
+python train_ft_adapters.py hparams/AB/Encoder/AB_S4A.yaml --data_folder $SLURM_TMPDIR/CL_MASR/CL-MASR --seed 0 --projection_size $rank --location "encoder"
