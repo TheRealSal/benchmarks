@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=AB_Bn_proj_sweep
+#SBATCH --job-name=KAB_Bn_proj_sweep
 #SBATCH --array=0-10
 #SBATCH --time=2:30:00
 #SBATCH --ntasks=2
