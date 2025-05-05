@@ -45,6 +45,7 @@ whisper_variant: whisper-small
 encoder_only: False
 freeze: False
 freeze_encoder: True
+freeze_decoder: False
 
 max_target_length: 448  # Must be <= 448 (Whisper maximum target length)
 nonfinite_patience: 10
