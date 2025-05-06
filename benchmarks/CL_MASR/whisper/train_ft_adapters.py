@@ -538,6 +538,8 @@ if __name__ == "__main__":
         adapter_kwargs=adapter_cfg["adapter_kwargs"],
     )
 
+    logging.info(hparams["modules"]["whisper"])
+
     n_params = print_num_trainable_params(hparams["modules"]["whisper"])
 
     # Train
