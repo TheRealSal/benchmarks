@@ -80,6 +80,7 @@ whisper: !new:model.ProgressiveWhisper
     encoder_only: !ref <encoder_only>
     freeze: !ref <freeze>
     freeze_encoder: !ref <freeze_encoder>
+    freeze_decoder: !ref <freeze_decoder>
 
 ce_loss: !new:torch.nn.CrossEntropyLoss
     ignore_index: !ref <ignore_index>
