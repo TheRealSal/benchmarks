@@ -59,7 +59,7 @@ normalize_transcripts: True
 
 # Adapter options
 projection_size: 12
-alpha: 3
+alpha: 16
 adapter_rank_tag: !ref "r=<projection_size>"
 
 # Dataloader options
