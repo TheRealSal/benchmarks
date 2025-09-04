@@ -5,7 +5,7 @@
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=16G
 #SBATCH --account=def-ravanelm
-#SBATCH --gres=gpu:v100l:1
+#SBATCH --gres=gpu:h100:1
 #SBATCH --nodes=1
 
 # Load Dataset
