@@ -101,7 +101,7 @@ opt_class: !name:torch.optim.AdamW
 
 lr_annealing: !new:speechbrain.nnet.schedulers.LinearScheduler
     initial_value: !ref <lr>
-    final_value: 0.00005
+    final_value: 0.0005
     epoch_count: !ref <num_epochs>
 
 # Performance metrics
