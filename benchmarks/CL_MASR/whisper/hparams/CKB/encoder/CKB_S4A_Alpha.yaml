@@ -3,7 +3,7 @@
 # Authors: Luca Della Libera 2023
 # ############################################################################
 
-experiment_name: CKB_S4A
+experiment_name: CKB_S4A_Alpha
 locale_name: "ckb"
 adapter_type: "S4A"
 
