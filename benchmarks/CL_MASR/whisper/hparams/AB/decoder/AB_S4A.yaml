@@ -77,6 +77,7 @@ adapter_config:
   adapter_kwargs:
     projection_size: !ref <projection_size>
     kernel_size: 4
+    learn_alpha: True
 
 # Modules
 whisper: !new:model.ProgressiveWhisper
