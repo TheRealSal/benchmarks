@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=EO_Lora_enc_dec
-#SBATCH --time=6:0:0
+#SBATCH --time=2:20:0
 #SBATCH --ntasks=2
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=16G
