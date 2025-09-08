@@ -60,6 +60,7 @@ normalize_transcripts: True
 
 # Adapter options
 projection_size: 24
+kernel_size: 4
 adapter_rank_tag: !ref "r=<projection_size>"
 
 # Dataloader options
@@ -79,6 +80,7 @@ adapter_config:
     - "model.decoder.layers.*.mlp"
   adapter_kwargs:
     projection_size: !ref <projection_size>
+    kernel_size: !ref <kernel_size>
 
 # Modules
 whisper: !new:model.ProgressiveWhisper
