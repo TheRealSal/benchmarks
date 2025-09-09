@@ -38,7 +38,7 @@ label_smoothing: 0
 
 num_epochs: 10
 lr: 0.001
-final_value: 0.00003
+final_value: 0.00005
 
 betas: [0.9,0.98]
 eps: 1e-6
