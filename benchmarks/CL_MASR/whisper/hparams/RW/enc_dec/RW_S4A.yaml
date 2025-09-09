@@ -81,6 +81,7 @@ adapter_config:
     projection_size: !ref <projection_size>
     kernel_size: 24
     learn_alpha: True
+    zero_init: True
 
 # Modules
 whisper: !new:model.ProgressiveWhisper
