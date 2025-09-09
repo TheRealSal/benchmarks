@@ -78,7 +78,7 @@ adapter_config:
     - "model.encoder.layers.*.mlp"
   adapter_kwargs:
     projection_size: !ref <projection_size>
-
+    zero_init: True
 # Modules
 whisper: !new:model.ProgressiveWhisper
     source: !ref openai/<whisper_variant>
