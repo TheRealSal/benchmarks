@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --job-name=KAB_Bn_enc_dec
-#SBATCH --time=2:20:0
+#SBATCH --time=4:30:0
 #SBATCH --ntasks=2
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=16G
 #SBATCH --account=def-ravanelm
-#SBATCH --gres=gpu:h100:1
+#SBATCH --gpus=nvidia_h100_80gb_hbm3_3g.40gb:2
 #SBATCH --nodes=1
 
 # Load Dataset
