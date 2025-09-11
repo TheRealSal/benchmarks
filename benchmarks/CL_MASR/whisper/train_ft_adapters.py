@@ -550,5 +550,13 @@ if __name__ == "__main__":
 
     hparams["train_logger"].log_stats(
         stats_meta={"Rank": hparams["projection_size"],
-                    "# of Trainable Params": n_params}
+                    "# of Trainable Params": n_params,
+                    "Location": hparams["location"],
+                    "Adapter Type": hparams["adapter_type"]}
     )
+
+    if hparams["adapter_type"] == "S4A":
+        hparams["train_logger"].log_stats(
+            stats_meta={"d_state": hparams["adapter_config"]["adapter_kwargs"]["d_state"],
+                        "kernel_size": hparams["adapter_config"]["adapter_kwargs"]["kernel_size"]}
+        )
