@@ -21,5 +21,5 @@ print(torch.randint(0,2**32-1,(1,)).item())
 EOF
 )
     echo "Training with seed $seed"
-    python train_ft.py hparams/RW/RW_FT.yaml --data_folder $SLURM_TMPDIR/CL_MASR/CL-MASR --seed $seed
+    python train_ft.py hparams/RW/RW_FT.yaml --data_folder $SLURM_TMPDIR/CL_MASR/CL-MASR --scratch_folder $SCRATCH/whisper --seed $seed
 done

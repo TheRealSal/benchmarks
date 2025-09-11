@@ -13,6 +13,8 @@ __set_seed: !apply:torch.manual_seed [!ref <seed>]
 
 skip_test: False
 
+scratch_folder: !PLACEHOLDER
+
 # Data preparation
 base_locales: [en]
 new_locales: [eo]
