@@ -5,7 +5,7 @@
 
 experiment_name: AB_BN
 locale_name: "ab"
-adapter_type: "bn"
+adapter_type: "BN"
 
 location: ""
 seed: 0
