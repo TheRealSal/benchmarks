@@ -80,7 +80,7 @@ adapter_config:
     - "model.encoder.layers.*.mlp"
   adapter_kwargs:
     projection_size: !ref <projection_size>
-    kernel_size: 24
+    kernel_size: 8
     learn_alpha: True
     d_state: 16
     zero_init: True
