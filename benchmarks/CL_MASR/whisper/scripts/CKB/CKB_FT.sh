@@ -1,6 +1,12 @@
 #!/bin/bash
-#SBATCH --mail-user=s_ssaina@live.concordia.ca
-#SBATCH --mail-type=ALL
+#SBATCH --job-name=CKB_FT
+#SBATCH --time=4:30:0
+#SBATCH --ntasks=2
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=16G
+#SBATCH --account=def-ravanelm
+#SBATCH --gpus=nvidia_h100_80gb_hbm3_3g.40gb:1
+#SBATCH --nodes=1
 
 # Load Dataset
 cp $HOME/projects/def-ravanelm/datasets/CL-MASR.tar.gz $SLURM_TMPDIR/
