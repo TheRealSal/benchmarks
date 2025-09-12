@@ -52,7 +52,7 @@ freeze_decoder: True
 max_target_length: 448  # Must be <= 448 (Whisper maximum target length)
 nonfinite_patience: 10
 max_grad_norm: 1.0
-precision: fp16
+precision: bf16
 gradient_checkpointing: False
 ckpt_interval_minutes: 600
 
