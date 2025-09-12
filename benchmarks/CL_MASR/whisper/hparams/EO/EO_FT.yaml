@@ -7,6 +7,8 @@ experiment_name: EO_FT
 locale_name: "eo"
 adapter_type: "FT"
 
+location: "FFT"
+
 seed: 0
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
 
