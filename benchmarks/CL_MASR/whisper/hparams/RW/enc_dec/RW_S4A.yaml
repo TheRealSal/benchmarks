@@ -106,6 +106,9 @@ modules:
 # Optimizers
 opt_class: !name:torch.optim.AdamW
     lr: !ref <lr>
+    eps: 1.0e-6
+    betas: [0.9, 0.98]
+    weight_decay: 0.01  # optional; helps generalization
 
 lr_annealing: !new:speechbrain.nnet.schedulers.LinearScheduler
     initial_value: !ref <lr>
