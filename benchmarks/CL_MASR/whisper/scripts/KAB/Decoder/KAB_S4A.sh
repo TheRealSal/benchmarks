@@ -18,7 +18,7 @@ ls -l CL_MASR  # Check if files exist
 module load StdEnv/2023  gcc/12.3 intel/2023.2.1 gcccore/.12.3 ucc/1.2.0 ucx/1.14.1 openmpi/4.1.5 arrow/17.0.0 cuda/11.8
 source $HOME/projects/def-ravanelm/salmanhu/benchmarks/venv/bin/activate
 
-rank=64
+rank=72
 
 # Train with 5 random seeds
 cd $HOME/projects/def-ravanelm/salmanhu/benchmarks/benchmarks/CL_MASR/whisper
