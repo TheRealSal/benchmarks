@@ -100,6 +100,7 @@ def main():
     # ===== Load YAML (same as training) =====
     with open(args.yaml, "r") as f:
         hparams = load_hyperpyyaml(f, overrides={
+            "scratch_folder": args.scratch_folder,
             "data_folder": "/tmp"
         })
 
