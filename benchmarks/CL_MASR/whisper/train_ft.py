@@ -526,3 +526,8 @@ if __name__ == "__main__":
     train(hparams, run_opts)
     duration = time.time() - start_time
     logging.info(f"Time elapsed: {duration} seconds")
+
+    hparams["train_logger"].log_stats(
+        stats_meta={"Location": hparams["location"],
+                    "Adapter Type": hparams["adapter_type"]}
+    )
