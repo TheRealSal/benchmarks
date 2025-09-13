@@ -94,12 +94,12 @@ def main():
     ap.add_argument("--seconds", type=float, nargs="+", default=[5.0,10.0,20.0])
     ap.add_argument("--gen", action="store_true", help="also time generate() after encoding")
     ap.add_argument("--out", type=str, default="results.json")
+    ap.add_argument("--scratch_folder", default="/tmp")
     args = ap.parse_args()
 
     # ===== Load YAML (same as training) =====
     with open(args.yaml, "r") as f:
         hparams = load_hyperpyyaml(f, overrides={
-            "scratch_folder": "/tmp",
             "data_folder": "/tmp"
         })
 
