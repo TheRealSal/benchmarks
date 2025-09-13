@@ -35,6 +35,9 @@ torch.set_grad_enabled(False)
 
 from hyperpyyaml import load_hyperpyyaml
 
+import datetime, json, os, tempfile
+from pathlib import Path
+
 # Utilities to import adapter class string like "speechbrain.nnet.adapters.HoulsbyAdapterLinear"
 def get_class_from_str(path: str):
     mod, name = path.rsplit(".", 1)
@@ -83,6 +86,36 @@ def summarize(times_ms):
     stdev = statistics.pstdev(times_ms) if len(times_ms) > 1 else 0.0
     return {"mean_ms": mean, "p50_ms": p50, "p90_ms": p90, "stdev_ms": stdev}
 
+def _now_iso():
+    return datetime.datetime.now().astimezone().isoformat(timespec="seconds")
+
+def _load_results_db(path: str):
+    p = Path(path)
+    if not p.exists():
+        return {"experiments": []}
+    with open(p, "r") as f:
+        try:
+            data = json.load(f)
+        except json.JSONDecodeError:
+            # Corrupt or empty file -> start fresh
+            return {"experiments": []}
+    # Backward compatibility if older file was a list:
+    if isinstance(data, list):
+        return {"experiments": data}
+    if isinstance(data, dict) and "experiments" in data and isinstance(data["experiments"], list):
+        return data
+    # Unexpected structure -> wrap as one experiment
+    return {"experiments": [data]}
+
+def _atomic_write_json(obj, path: str):
+    """Write JSON atomically to avoid partial writes."""
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("w", delete=False, dir=str(p.parent), suffix=".tmp") as tmp:
+        json.dump(obj, tmp, indent=2)
+        tmp_path = tmp.name
+    os.replace(tmp_path, str(p))  # atomic on POSIX
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--yaml", type=str, required=True)
@@ -95,6 +128,8 @@ def main():
     ap.add_argument("--gen", action="store_true", help="also time generate() after encoding")
     ap.add_argument("--out", type=str, default="results.json")
     ap.add_argument("--scratch_folder", default="/tmp")
+    ap.add_argument("--out-mode", choices=["append", "replace"], default="append",
+                    help="append: add as a new experiment; replace: overwrite file with this run only")
     args = ap.parse_args()
 
     # ===== Load YAML (same as training) =====
@@ -188,6 +223,33 @@ def main():
         "runs": []
     }
 
+    experiment = {
+        "device": str(device),
+        "precision": args.precision,
+        "iters": args.iters,
+        "warmup": args.warmup,
+        "batch_sizes": args.batch_sizes,
+        "seconds": args.seconds,
+        "gen": args.gen,
+        "meta": {
+            "adapter": hparams.get("adapter_type", None),
+            "projection_size": hparams.get("projection_size", None),
+            "whisper_variant": hparams.get("whisper_variant", None),
+            "insertion": insertion,
+            "sample_rate": sample_rate,
+            "yaml_path": os.path.abspath(args.yaml),
+        },
+        "runs": results["runs"],  # reuse the accumulated runs
+        "timestamps": {
+            "completed_at": _now_iso(),
+        },
+        "env": {
+            "torch_version": torch.__version__,
+            "cuda_available": torch.cuda.is_available(),
+            "cuda_device_name": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
+        }
+    }
+
     # Warmup
     for _ in range(args.warmup):
         wavs, bos = make_inputs(1, args.seconds[0])
@@ -226,9 +288,17 @@ def main():
             mode = "fwd+gen" if args.gen else "fwd"
             print(f"[{mode}] {insertion}  bs={bs} sec={sec}  mean={summary['mean_ms']:.2f}ms  p50={summary['p50_ms']:.2f}  p90={summary['p90_ms']:.2f}  items/s={items_per_s:.2f}")
 
-    with open(args.out, "w") as f:
-        json.dump(results, f, indent=2)
-    print(f"\nSaved to {args.out}")
+    out_path = args.out
+    if getattr(args, "out_mode", "append") == "replace":
+        # Overwrite with only this experiment
+        db = {"experiments": [experiment]}
+    else:
+        # Append to existing file
+        db = _load_results_db(out_path)
+        db["experiments"].append(experiment)
+
+    _atomic_write_json(db, out_path)
+    print(f"\nSaved experiment to {out_path} (total experiments: {len(db['experiments'])})")
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """
 Plot & aggregate results from inference_bench_sb.py
@@ -21,20 +20,20 @@ What it does:
     3) Bar chart of geometric-mean % slower vs baseline across all conditions
 """
 
-import argparse, os, json, math
+import argparse, json
 from pathlib import Path
 from typing import Dict, Any, List
 
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def _infer_label_and_insertion(path: Path, rec: Dict[str, Any]):
+def _infer_label_and_insertion(rec: Dict[str, Any], path: Path | None = None):
     meta = rec.get("meta", {})
     label = meta.get("adapter") or meta.get("adapter_type")
     insertion = meta.get("insertion")
     if not label:
         proj = meta.get("projection_size")
-        label = path.stem
+        label = (path.stem if path is not None else "run")
         if proj is not None:
             label = f"{label} (p={proj})"
     label_full = f"{label} [{insertion}]" if insertion else label
@@ -44,25 +43,37 @@ def load_results(paths: List[Path]) -> pd.DataFrame:
     rows = []
     for p in paths:
         with open(p, "r") as f:
-            rec = json.load(f)
-        label, insertion = _infer_label_and_insertion(p, rec)
-        meta = rec.get("meta", {})
-        for run in rec.get("runs", []):
-            s = run["summary"]
-            rows.append({
-                "label": label,
-            "insertion": insertion,
-                "file": str(p),
-                "device": rec.get("device"),
-                "precision": rec.get("precision"),
-                "batch_size": run["batch_size"],
-                "seconds": run["seconds"],
-                "mean_ms": s["mean_ms"],
-                "p50_ms": s["p50_ms"],
-                "p90_ms": s["p90_ms"],
-                "items_per_s": run.get("throughput_items_per_s"),
-                "audio_s_per_s": run.get("throughput_audio_seconds_per_s"),
-            })
+            root = json.load(f)
+
+        # Normalize to a list of experiment records
+        if isinstance(root, dict) and "experiments" in root and isinstance(root["experiments"], list):
+            experiments = root["experiments"]
+        else:
+            # Backward compatibility: treat the entire file as a single experiment record
+            experiments = [root]
+
+        for rec in experiments:
+            label, insertion = _infer_label_and_insertion(rec, p)
+            meta = rec.get("meta", {})
+            device = rec.get("device") or meta.get("device")
+            precision = rec.get("precision") or meta.get("precision")
+            runs = rec.get("runs", [])
+            for run in runs:
+                s = run.get("summary", {})
+                rows.append({
+                    "label": label,
+                    "insertion": insertion,
+                    "file": str(p),
+                    "device": device,
+                    "precision": precision,
+                    "batch_size": run.get("batch_size"),
+                    "seconds": run.get("seconds"),
+                    "mean_ms": s.get("mean_ms"),
+                    "p50_ms": s.get("p50_ms"),
+                    "p90_ms": s.get("p90_ms"),
+                    "items_per_s": run.get("throughput_items_per_s"),
+                    "audio_s_per_s": run.get("throughput_audio_seconds_per_s"),
+                })
     return pd.DataFrame(rows)
 
 def save_latency_plots(df: pd.DataFrame, outdir: Path):
@@ -108,7 +119,7 @@ def save_geomean_bar(df: pd.DataFrame, baseline: str, outdir: Path):
     labels = sorted(df["label"].unique())
     ratios = {}
     for label in labels:
-        if label == baseline: 
+        if label == baseline:
             continue
         merged = pd.merge(
             df[df["label"] == label],
@@ -149,6 +160,10 @@ def main():
 
     paths = [Path(j) for j in args.jsons]
     df = load_results(paths)
+    df["batch_size"] = pd.to_numeric(df["batch_size"], errors="coerce")
+    df["seconds"] = pd.to_numeric(df["seconds"], errors="coerce")
+    df["mean_ms"] = pd.to_numeric(df["mean_ms"], errors="coerce")
+    df["items_per_s"] = pd.to_numeric(df["items_per_s"], errors="coerce")
     df = df.sort_values(["seconds","batch_size","label"])
 
     # Save tidy CSV
