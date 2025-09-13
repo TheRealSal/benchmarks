@@ -129,7 +129,6 @@ def main():
             adapter_class=adapter_cls,
             target_layers=adapter_cfg["target_layers"],
             adapter_kwargs=adapter_cfg.get("adapter_kwargs", {}),
-            adapter_name=adapter_cfg.get("adapter_name", "default"),
         )
     # Precision knobs for speed
     if dtype in (torch.float16, torch.bfloat16):
