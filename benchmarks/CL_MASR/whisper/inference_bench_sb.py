@@ -128,7 +128,7 @@ def main():
             model_to_adapt=whisper,
             adapter_class=adapter_cls,
             target_layers=adapter_cfg["target_layers"],
-            adapter_kwargs=adapter_cfg.get("adapter_kwargs", {}),
+            adapter_kwargs=adapter_cfg["adapter_kwargs"],
         )
     # Precision knobs for speed
     if dtype in (torch.float16, torch.bfloat16):

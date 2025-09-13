@@ -61,7 +61,7 @@ forced_decoder_locale: null  # Set dynamically
 normalize_transcripts: True
 
 # Adapter options
-projection_size: 24
+projection_size: 48
 kernel_size: 4
 adapter_rank_tag: !ref "r=<projection_size>"
 
