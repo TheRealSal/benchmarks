@@ -108,9 +108,6 @@ opt_class: !name:torch.optim.AdamW
     eps: 1.0e-6
     betas: [0.9, 0.98]
     weight_decay: 0.01  # optional; helps generalization
-    betas: [0.9,0.98]
-    weight_decay: 0.1
-    eps: 1e-6
 
 lr_annealing: !new:speechbrain.nnet.schedulers.LinearScheduler
     initial_value: !ref <lr>
