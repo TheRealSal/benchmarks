@@ -5,16 +5,16 @@ source $HOME/projects/def-ravanelm/salmanhu/benchmarks/venv/bin/activate
 cd $HOME/projects/def-ravanelm/salmanhu/benchmarks/benchmarks/CL_MASR/whisper
 
 # Bottleneck
-python inference_bench_sb.py --yaml hparams/AB/decoder/RW_Bn.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
-python inference_bench_sb.py --yaml hparams/AB/encoder/RW_Bn.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
-python inference_bench_sb.py --yaml hparams/AB/enc_dec/RW_Bn.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
+python inference_bench_sb.py --yaml hparams/AB/decoder/AB_Bn.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
+python inference_bench_sb.py --yaml hparams/AB/encoder/AB_Bn.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
+python inference_bench_sb.py --yaml hparams/AB/enc_dec/AB_Bn.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
 
 # Conformer
-python inference_bench_sb.py --yaml hparams/AB/decoder/RW_Con.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
-python inference_bench_sb.py --yaml hparams/AB/encoder/RW_Con.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
-python inference_bench_sb.py --yaml hparams/AB/enc_dec/RW_Con.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
+python inference_bench_sb.py --yaml hparams/AB/decoder/AB_Con.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
+python inference_bench_sb.py --yaml hparams/AB/encoder/AB_Con.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
+python inference_bench_sb.py --yaml hparams/AB/enc_dec/AB_Con.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
 
 # S4A
-python inference_bench_sb.py --yaml hparams/AB/decoder/S4A_Con.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
-python inference_bench_sb.py --yaml hparams/AB/encoder/S4A_Con.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
-python inference_bench_sb.py --yaml hparams/AB/enc_dec/S4A_Con.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
+python inference_bench_sb.py --yaml hparams/AB/decoder/AB_S4A.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
+python inference_bench_sb.py --yaml hparams/AB/encoder/AB_S4A.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
+python inference_bench_sb.py --yaml hparams/AB/enc_dec/AB_S4A.yaml --device cuda --precision bf16 --iters 30 --warmup 10 --batch-sizes 1 2 4 --seconds 5 10 20 --out runtime_results.json
