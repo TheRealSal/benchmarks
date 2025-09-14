@@ -83,7 +83,7 @@ adapter_config:
 # Modules
 whisper: !new:model.ProgressiveWhisper
     source: !ref openai/<whisper_variant>
-    save_path: !ref <scratch_folder>/checkpoint
+    save_path: !ref <scratch_folder>/whisper
     sampling_rate: !ref <sample_rate>
     encoder_only: !ref <encoder_only>
     freeze: !ref <freeze>
