@@ -27,6 +27,14 @@ from typing import Dict, Any, List
 import pandas as pd
 import matplotlib.pyplot as plt
 
+# Mapping of adapter names to line styles for plots
+LINE_STYLES = {
+    "Bottleneck": "-",
+    "S4A": "--",
+    "Configurable": ":",
+    # Add more mappings as needed
+}
+
 def _infer_label_and_insertion(rec: Dict[str, Any], path: Path | None = None):
     meta = rec.get("meta", {})
     label = meta.get("adapter") or meta.get("adapter_type")
@@ -81,7 +89,9 @@ def save_latency_plots(df: pd.DataFrame, outdir: Path):
         fig = plt.figure()
         for label, g in sub.groupby("label"):
             g2 = g.sort_values("batch_size")
-            plt.plot(g2["batch_size"], g2["mean_ms"], marker="o", label=label)
+            adapter_name = label.split()[0]
+            linestyle = LINE_STYLES.get(adapter_name, "-")
+            plt.plot(g2["batch_size"], g2["mean_ms"], marker="o", label=label, linestyle=linestyle)
         plt.xlabel("Batch size")
         plt.ylabel("Latency (mean ms)")
         plt.title(f"Latency vs Batch Size (seconds={sec})")
@@ -94,7 +104,9 @@ def save_throughput_plots(df: pd.DataFrame, outdir: Path):
         fig = plt.figure()
         for label, g in sub.groupby("label"):
             g2 = g.sort_values("batch_size")
-            plt.plot(g2["batch_size"], g2["items_per_s"], marker="o", label=label)
+            adapter_name = label.split()[0]
+            linestyle = LINE_STYLES.get(adapter_name, "-")
+            plt.plot(g2["batch_size"], g2["items_per_s"], marker="o", label=label, linestyle=linestyle)
         plt.xlabel("Batch size")
         plt.ylabel("Throughput (items/s)")
         plt.title(f"Throughput vs Batch Size (seconds={sec})")
