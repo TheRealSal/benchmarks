@@ -138,4 +138,4 @@ train_logger: !new:speechbrain.utils.train_logger.WandBLogger
       entity: "salmanhussainali03-concordia-university"
       project: "MASR-S4A"
       name: !ref <experiment_name>
-      tags: [!ref <locale_name>, !ref <adapter_type>, !ref <adapter_rank_tag>, !ref <location>]
+      tags: [!ref <locale_name>, !ref <adapter_type>, !ref <adapter_rank_tag>, !ref <location>, "ablation"]
