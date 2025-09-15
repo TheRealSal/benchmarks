@@ -552,7 +552,8 @@ if __name__ == "__main__":
         stats_meta={"Rank": hparams["projection_size"],
                     "# of Trainable Params": n_params,
                     "Location": hparams["location"],
-                    "Adapter Type": hparams["adapter_type"]}
+                    "Adapter Type": hparams["adapter_type"],
+                    "Language": hparams["locale_name"]}
     )
 
     if hparams["adapter_type"] == "S4A":
