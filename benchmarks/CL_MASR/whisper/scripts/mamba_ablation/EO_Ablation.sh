@@ -54,13 +54,13 @@ exp  = [2, 3, 4]
 dst  = [8, 16, 24, 32, 64]
 grid = list(itertools.product(dst, exp, kern))  # lexicographic, size 75
 d,e,k = grid[int(sys.argv[1])]
-print(d); print(e); print(k)
+print(d, e, k)  # Print on same line separated by spaces
 PY
 }
 
 # ---------- Loop over 3 combos sequentially ----------
 for (( IDX="$START_IDX"; IDX<"$END_IDX"; IDX++ )); do
-  read -r D_STATE EXPAND KERNEL_SIZE < <(get_tuple "$IDX")
+  read -r D_STATE EXPAND KERNEL_SIZE <<< "$(get_tuple "$IDX")"
 
   # Random seed (your original style)
   SEED=$(python - <<'EOF'
