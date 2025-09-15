@@ -47,7 +47,7 @@ echo "Task $SLURM_ARRAY_TASK_ID handles combo indices [$START_IDX, $END_IDX)"
 # Helper: rebuild the grid and return (d_state, expand, kernel) for index
 get_tuple () {
   local idx="$1"
-  python - <<PY "$idx"
+  python - "$idx" <<'PY'
 import itertools, sys
 kern = [4, 8, 16, 24, 32]
 exp  = [2, 3, 4]
@@ -84,5 +84,4 @@ EOF
       --expand "$EXPAND" \
       2>&1
   )
-
 done
