@@ -558,5 +558,6 @@ if __name__ == "__main__":
     if hparams["adapter_type"] == "S4A":
         hparams["train_logger"].log_stats(
             stats_meta={"d_state": hparams["adapter_config"]["adapter_kwargs"]["d_state"],
-                        "kernel_size": hparams["adapter_config"]["adapter_kwargs"]["kernel_size"]}
+                        "kernel_size": hparams["adapter_config"]["adapter_kwargs"]["kernel_size"],
+                        "expand": hparams["adapter_config"]["adapter_kwargs"]["expand"]}
         )
