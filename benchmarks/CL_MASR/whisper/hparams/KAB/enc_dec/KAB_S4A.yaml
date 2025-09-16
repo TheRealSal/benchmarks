@@ -63,6 +63,9 @@ normalize_transcripts: True
 # Adapter options
 projection_size: 24
 adapter_rank_tag: !ref "r=<projection_size>"
+d_state: 16
+expand: 2
+kernel_size: 8
 
 # Dataloader options
 train_dataloader_kwargs:
