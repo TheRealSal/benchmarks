@@ -69,6 +69,7 @@ adapter_rank_tag: !ref "r=<projection_size>"
 d_state: 16
 expand: 2
 kernel_size: 8
+alpha_init: 0.1
 
 # Dataloader options
 train_dataloader_kwargs:
@@ -90,6 +91,7 @@ adapter_config:
     kernel_size: !ref <kernel_size>
     d_state: !ref <d_state>
     expand: !ref <expand>
+    alpha_init: !ref <alpha_init>
 
 # Modules
 whisper: !new:model.ProgressiveWhisper

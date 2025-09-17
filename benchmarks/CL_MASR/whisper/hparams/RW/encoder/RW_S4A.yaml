@@ -89,6 +89,7 @@ adapter_config:
     kernel_size: !ref <kernel_size>
     d_state: !ref <d_state>
     expand: !ref <expand>
+    alpha_init: !ref <alpha_init>
 
 # Modules
 whisper: !new:model.ProgressiveWhisper
