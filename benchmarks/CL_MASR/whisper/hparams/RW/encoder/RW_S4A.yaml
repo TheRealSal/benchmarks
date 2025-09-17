@@ -67,7 +67,7 @@ adapter_rank_tag: !ref "r=<projection_size>"
 d_state: 16
 expand: 2
 kernel_size: 8
-projection_tag: "r=!ref<projection_size>"
+alpha_init: 0.1
 
 # Dataloader options
 train_dataloader_kwargs:
