@@ -40,7 +40,6 @@ label_smoothing: 0
 
 num_epochs: 15
 lr: 0.001
-final_value: 0.00002
 
 betas: [0.9,0.98]
 eps: 1e-6
@@ -119,7 +118,7 @@ opt_class: !name:torch.optim.AdamW
 
 lr_annealing: !new:speechbrain.nnet.schedulers.LinearScheduler
     initial_value: !ref <lr>
-    final_value: !ref <final_value>
+    final_value: !ref 0.00002
     epoch_count: !ref <num_epochs>
 
 # Performance metrics

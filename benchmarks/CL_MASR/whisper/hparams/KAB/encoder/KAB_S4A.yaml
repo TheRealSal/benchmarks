@@ -40,7 +40,6 @@ label_smoothing: 0
 
 num_epochs: 15
 lr: 0.001
-final_value: 0.00002
 improvement_threshold: 0.0025
 annealing_factor: 0.8
 
@@ -117,7 +116,7 @@ opt_class: !name:torch.optim.AdamW
 
 lr_annealing: !new:speechbrain.nnet.schedulers.LinearScheduler
     initial_value: !ref <lr>
-    final_value: !ref <final_value>
+    final_value: !ref 0.00002
     epoch_count: !ref <num_epochs>
 
 # Performance metrics
@@ -138,7 +137,7 @@ checkpointer: !new:speechbrain.utils.checkpoints.Checkpointer
 
 train_logger: !new:speechbrain.utils.train_logger.WandBLogger
     initializer: !name:wandb.init
-      entity: "salmanhussainali03-concordia-university"
-      project: "MASR-S4A"
+      entity: ""
+      project: ""
       name: !ref <experiment_name>
       tags: [!ref <locale_name>, !ref <adapter_type>, !ref <adapter_rank_tag>, !ref <location>]
